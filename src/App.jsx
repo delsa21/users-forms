@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { getToken } from './getToken';
 import { getDataAuth, authFlow } from "./setup";
+import { useEffect } from 'react';
+import { spotifyAPI } from './api/spotifyAPI';
 
 function App() {
   const navigate = useNavigate();
@@ -16,6 +18,16 @@ function App() {
     navigate('/dashboard');
   };
 
+ const getUsers = async() => {
+  const url = "http://localhost:3000/api/users";
+   const res = await spotifyAPI(url, 'GET', null);
+   console.log(res);
+ }
+
+  useEffect(() => {
+    getUsers();
+  }, [])
+  
   return (
     <div className="app-container">
       <h1>Hola Mund34</h1>
