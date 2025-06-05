@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const userId = localStorage.getItem("UserId");
-      navigate("/login");
+      navigate("/");
   }, [navigate]);
 
   return (

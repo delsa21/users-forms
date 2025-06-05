@@ -20,44 +20,42 @@ const Login = () => {
     }));
   };
 
-const handleLogIn = async () => {
-  try {
-    const { email, password: inputPassword } = form;
+  const handleLogIn = async () => {
+    try {
+      const { email, password: inputPassword } = form;
 
-    const url1 = `http://localhost:3000/api/users/password/${email}`;
-    const userData = await spotifyAPI(url1, "GET");
+      const url1 = `http://localhost:3000/api/users/password/${email}`;
+      const userData = await spotifyAPI(url1, "GET"); 
 
-    if (!userData?.password) {
-      alert("Correo no registrado.");
-      return;
+      if (!userData?.password) {
+        alert("Correo no registrado.");
+        return;
+      }
+
+      const dbPassword = userData.password.toString();
+
+      if (dbPassword !== inputPassword) {
+        alert("Contraseña incorrecta.");
+        return;
+      }
+
+      const url2 = `http://localhost:3000/api/users/mail/${email}`;
+      const userInfo = await spotifyAPI(url2, "GET");
+
+      console.log("Respuesta del backend:", userInfo);
+
+      if (userInfo?.id) {
+        localStorage.setItem("UserId", userInfo.id.toString());
+        console.log("Usuario válido..");
+        navigate("/");
+      } else {
+        alert("No se pudo completar el inicio de sesión.");
+      }
+    } catch (error) {
+      console.error("Login error:", error.message);
+      alert("Error en la conexión con el servidor.");
     }
-
-    const dbPassword = userData.password.toString();
-
-    if (dbPassword !== inputPassword) {
-      alert("Contraseña incorrecta.");
-      return;
-    }
-
-    const url2 = `http://localhost:3000/api/users/mail/${email}`;
-    const userInfo = await spotifyAPI(url2, "GET");
-
-    console.log("Respuesta del backend:", userInfo);
-
-    if (userInfo?.id) {
-      localStorage.setItem("UserId", userInfo.id.toString());
-      console.log("Usuario válido, navegando al dashboard...");
-      navigate("/dashboard");
-    } else {
-      alert("No se pudo completar el inicio de sesión.");
-    }
-
-  } catch (error) {
-    console.error("Login error:", error.message);
-    alert("Error en la conexión con el servidor.");
-  }
-};
-
+  };
 
   return (
     <div className="dashboard">

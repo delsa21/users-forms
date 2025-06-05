@@ -10,7 +10,6 @@ export const spotifyAPI = async (url, method, token = null, body = null) => {
       headers,
     };
 
-    // Solo incluir `body` si no es GET
     if (body && method !== "GET" && method !== "HEAD") {
       options.body = typeof body === "string" ? body : JSON.stringify(body);
     }

@@ -72,17 +72,28 @@ const Dashboard = () => {
   };
 
   const getDeviceId = async () => {
-    try {
-      const url = "https://api.spotify.com/v1/me/player/devices";
-      const response = await spotifyAPI(url, "GET", token, null);
+    const token = localStorage.getItem("access_token");
 
-      if (response?.devices?.length > 0) {
-        setDeviceId(response.devices[0].id);
-      } else {
-        alert("No se detectó un dispositivo activo.");
+    if (!token) {
+      alert("Token de Spotify no encontrado. Haz login con Spotify primero.");
+      return;
+    }
+
+    try {
+      const response = await spotifyAPI(
+        "https://api.spotify.com/v1/me/player/devices",
+        "GET",
+        token
+      );
+
+      console.log("Dispositivos encontrados:", response);
+
+      if (response?.devices?.length === 0) {
+        alert("No hay ningún dispositivo activo de Spotify.");
       }
     } catch (error) {
-      console.error("Error al obtener device ID:", error.message);
+      console.error("Error al obtener dispositivos:", error);
+      alert("Error al obtener dispositivos de Spotify.");
     }
   };
 

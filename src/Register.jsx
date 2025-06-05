@@ -24,7 +24,7 @@ const Register = () => {
     const url = "http://localhost:3000/api/users";
 
     try {
-      const res = await spotifyAPI(url, "POST", JSON.stringify(form), null);
+      const res = await spotifyAPI(url, "POST", null, form);
       console.log("Respuesta backend:", res);
 
       if (res?.id) {
