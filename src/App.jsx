@@ -18,16 +18,18 @@ function App() {
     navigate('/dashboard');
   };
 
- const getUsers = async() => {
-  const url = "http://localhost:3000/api/users";
-   const res = await spotifyAPI(url, 'GET', null);
-   console.log(res);
- }
+  const getUsers = async () => {
+    const url = "http://localhost:3000/api/users";
+    const res = await spotifyAPI(url, 'GET', null);
+    console.log(res);
+  };
 
   useEffect(() => {
-    getUsers();
-  }, [])
-  
+    const accessToken = localStorage.getItem("access_token");
+    const userId = localStorage.getItem("UserId");
+      navigate("/login");
+  }, [navigate]);
+
   return (
     <div className="app-container">
       <h1>Hola Mund34</h1>
